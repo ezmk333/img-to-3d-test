@@ -18,21 +18,21 @@
     "type": "gltf"
   },
   {
-    "name": "hotopot_trellis.glb",
-    "model_path": "models/hotopot_trellis.glb",
-    "image_path": "images/hotopot.png",
+    "name": "hotpot_trellis.glb",
+    "model_path": "models/hotpot_trellis.glb",
+    "image_path": "images/hotpot.png",
     "type": "gltf"
   },
   {
-    "name": "hotopot_hunyuan3d-2.0.glb",
-    "model_path": "models/hotopot_hunyuan3d-2.0.glb",
-    "image_path": "images/hotopot.png",
+    "name": "hotpot_hunyuan3d-2.0.glb",
+    "model_path": "models/hotpot_hunyuan3d-2.0.glb",
+    "image_path": "images/hotpot.png",
     "type": "gltf"
   },
   {
-    "name": "hotopot_hunyuan3d-2.0_delight.glb",
-    "model_path": "models/hotopot_hunyuan3d-2.0_delight.glb",
-    "image_path": "images/hotopot.png",
+    "name": "hotpot_hunyuan3d-2.0_delight.glb",
+    "model_path": "models/hotpot_hunyuan3d-2.0_delight.glb",
+    "image_path": "images/hotpot.png",
     "type": "gltf"
   },
   {
@@ -169,7 +169,7 @@
   },
   {
     "name": "rachel_hires_hunyuan3d-2.0.glb",
-    "model_path": "models/rachel_hiresi_hunyuan3d-2.0.glb",
+    "model_path": "models/rachel_hires_hunyuan3d-2.0.glb",
     "image_path": "images/rachel_hires.png",
     "type": "gltf"
   },
