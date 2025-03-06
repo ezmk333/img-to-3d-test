@@ -1,4 +1,32 @@
-<!DOCTYPE html>
+// ライトの明るさを制御するスライダーの設定
+        function setupLightControls() {
+            // 環境光のスライダー
+            const ambientSlider = document.getElementById('ambient-light');
+            const ambientValueDisplay = document.getElementById('ambient-value');
+            ambientSlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                ambientLight.intensity = value;
+                ambientValueDisplay.textContent = value.toFixed(1);
+            });
+            
+            // 主光源のスライダー
+            const mainSlider = document.getElementById('main-light');
+            const mainValueDisplay = document.getElementById('main-value');
+            mainSlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                directionalLight.intensity = value;
+                mainValueDisplay.textContent = value.toFixed(1);
+            });
+            
+            // 補助光源のスライダー
+            const secondarySlider = document.getElementById('secondary-light');
+            const secondaryValueDisplay = document.getElementById('secondary-value');
+            secondarySlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                secondaryLight.intensity = value;
+                secondaryValueDisplay.textContent = value.toFixed(1);
+            });
+        }<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -38,6 +66,36 @@
             border-radius: 5px;
             display: none;
         }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+            min-width: 300px;
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .control-group label {
+            flex: 0 0 40%;
+        }
+        .control-group input {
+            flex: 1;
+        }
+        .value-display {
+            flex: 0 0 50px;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -46,6 +104,24 @@
         <ul id="models"></ul>
     </div>
     <div id="loading" class="loading">読み込み中...</div>
+    
+    <div id="controls">
+        <div class="control-group">
+            <label for="ambient-light">環境光の強さ:</label>
+            <input type="range" id="ambient-light" min="0" max="2" step="0.1" value="0.8">
+            <span id="ambient-value" class="value-display">0.8</span>
+        </div>
+        <div class="control-group">
+            <label for="main-light">主光源の強さ:</label>
+            <input type="range" id="main-light" min="0" max="3" step="0.1" value="1.2">
+            <span id="main-value" class="value-display">1.2</span>
+        </div>
+        <div class="control-group">
+            <label for="secondary-light">補助光の強さ:</label>
+            <input type="range" id="secondary-light" min="0" max="2" step="0.1" value="0.8">
+            <span id="secondary-value" class="value-display">0.8</span>
+        </div>
+    </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
@@ -104,18 +180,21 @@
             controls.dampingFactor = 0.05;
 
             // ライティングの設定 - より明るく
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // 環境光を強く
+            ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // 環境光を強く
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // メイン光源を強く
+            directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // メイン光源を強く
             directionalLight.position.set(1, 1, 1);
             directionalLight.castShadow = true;
             scene.add(directionalLight);
             
             // 補助光源を追加
-            const secondaryLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            secondaryLight = new THREE.DirectionalLight(0xffffff, 0.8);
             secondaryLight.position.set(-1, 0.5, -1);
             scene.add(secondaryLight);
+            
+            // 明るさ調整スライダーの設定
+            setupLightControls();
 
             // ローディングマネージャー
             loadingElement = document.getElementById('loading');
