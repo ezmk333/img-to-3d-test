@@ -1,32 +1,4 @@
-// ライトの明るさを制御するスライダーの設定
-        function setupLightControls() {
-            // 環境光のスライダー
-            const ambientSlider = document.getElementById('ambient-light');
-            const ambientValueDisplay = document.getElementById('ambient-value');
-            ambientSlider.addEventListener('input', (e) => {
-                const value = parseFloat(e.target.value);
-                ambientLight.intensity = value;
-                ambientValueDisplay.textContent = value.toFixed(1);
-            });
-            
-            // 主光源のスライダー
-            const mainSlider = document.getElementById('main-light');
-            const mainValueDisplay = document.getElementById('main-value');
-            mainSlider.addEventListener('input', (e) => {
-                const value = parseFloat(e.target.value);
-                directionalLight.intensity = value;
-                mainValueDisplay.textContent = value.toFixed(1);
-            });
-            
-            // 補助光源のスライダー
-            const secondarySlider = document.getElementById('secondary-light');
-            const secondaryValueDisplay = document.getElementById('secondary-value');
-            secondarySlider.addEventListener('input', (e) => {
-                const value = parseFloat(e.target.value);
-                secondaryLight.intensity = value;
-                secondaryValueDisplay.textContent = value.toFixed(1);
-            });
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -314,6 +286,36 @@
             requestAnimationFrame(animate);
             controls.update();
             renderer.render(scene, camera);
+        }
+
+        // ライトの明るさを制御するスライダーの設定
+        function setupLightControls() {
+            // 環境光のスライダー
+            const ambientSlider = document.getElementById('ambient-light');
+            const ambientValueDisplay = document.getElementById('ambient-value');
+            ambientSlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                ambientLight.intensity = value;
+                ambientValueDisplay.textContent = value.toFixed(1);
+            });
+            
+            // 主光源のスライダー
+            const mainSlider = document.getElementById('main-light');
+            const mainValueDisplay = document.getElementById('main-value');
+            mainSlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                directionalLight.intensity = value;
+                mainValueDisplay.textContent = value.toFixed(1);
+            });
+            
+            // 補助光源のスライダー
+            const secondarySlider = document.getElementById('secondary-light');
+            const secondaryValueDisplay = document.getElementById('secondary-value');
+            secondarySlider.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                secondaryLight.intensity = value;
+                secondaryValueDisplay.textContent = value.toFixed(1);
+            });
         }
 
         // 初期化
