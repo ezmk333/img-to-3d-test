@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3Dモデルビューワー</title>
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        canvas { display: block; }
+        #model-list {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        #model-list h2 { margin-top: 0; }
+        #model-list ul { padding-left: 20px; }
+        #model-list li { 
+            cursor: pointer;
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+        #model-list li:hover { color: #00aaff; }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="model-list">
+        <h2>3Dモデル一覧</h2>
+        <ul id="models"></ul>
+    </div>
+    <div id="loading" class="loading">読み込み中...</div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r17/Stats.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/fflate.min.js"></script>
+
+    <script>
+        // モデルのリスト（ここを編集してモデルを追加）
+        const modelList = [
+            { name: "モデル1", path: "models/model1.glb", type: "gltf" },
+            { name: "モデル2", path: "models/model2.obj", type: "obj" },
+            { name: "モデル3", path: "models/model3.fbx", type: "fbx" },
+            // 他のモデルを追加...
+        ];
+
+        // Three.jsの初期化
+        let scene, camera, renderer, controls, currentModel;
+        let loadingManager, loadingElement;
+
+        function init() {
+            // シーンの作成
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x333333);
+
+            // カメラの設定
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // レンダラーの設定
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            document.body.appendChild(renderer.domElement);
+
+            // コントロールの設定
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            // ライティングの設定
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(1, 1, 1);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+
+            // ローディングマネージャー
+            loadingElement = document.getElementById('loading');
+            loadingManager = new THREE.LoadingManager();
+            loadingManager.onStart = function() {
+                loadingElement.style.display = 'block';
+            };
+            loadingManager.onLoad = function() {
+                loadingElement.style.display = 'none';
+            };
+
+            // モデルリストの作成
+            populateModelList();
+
+            // リサイズイベント
+            window.addEventListener('resize', onWindowResize);
+
+            // アニメーションループの開始
+            animate();
+        }
+
+        function populateModelList() {
+            const modelListElement = document.getElementById('models');
+            
+            modelList.forEach((model, index) => {
+                const li = document.createElement('li');
+                li.textContent = model.name;
+                li.addEventListener('click', () => loadModel(index));
+                modelListElement.appendChild(li);
+            });
+        }
+
+        function loadModel(index) {
+            // 既存のモデルを削除
+            if (currentModel) {
+                scene.remove(currentModel);
+                currentModel = null;
+            }
+
+            const model = modelList[index];
+            
+            let loader;
+            switch(model.type) {
+                case 'gltf':
+                    loader = new THREE.GLTFLoader(loadingManager);
+                    loader.load(model.path, function(gltf) {
+                        currentModel = gltf.scene;
+                        setupModel(currentModel);
+                    });
+                    break;
+                case 'obj':
+                    loader = new THREE.OBJLoader(loadingManager);
+                    loader.load(model.path, function(obj) {
+                        currentModel = obj;
+                        setupModel(currentModel);
+                    });
+                    break;
+                case 'fbx':
+                    loader = new THREE.FBXLoader(loadingManager);
+                    loader.load(model.path, function(fbx) {
+                        currentModel = fbx;
+                        setupModel(currentModel);
+                    });
+                    break;
+                default:
+                    console.error('サポートされていないモデルタイプ:', model.type);
+            }
+        }
+
+        function setupModel(model) {
+            // モデルのサイズを調整
+            const box = new THREE.Box3().setFromObject(model);
+            const size = box.getSize(new THREE.Vector3()).length();
+            const center = box.getCenter(new THREE.Vector3());
+
+            model.position.x -= center.x;
+            model.position.y -= center.y;
+            model.position.z -= center.z;
+
+            // カメラの位置を調整
+            camera.position.copy(center);
+            camera.position.x += size / 2.0;
+            camera.position.y += size / 5.0;
+            camera.position.z += size / 2.0;
+            camera.lookAt(center);
+
+            // コントロールのターゲットをモデルの中心に設定
+            controls.target.copy(center);
+            
+            scene.add(model);
+            
+            // カメラの距離を適切に設定
+            const maxDim = Math.max(size, 2);
+            camera.near = maxDim / 100;
+            camera.far = maxDim * 100;
+            camera.updateProjectionMatrix();
+            
+            controls.maxDistance = maxDim * 10;
+            controls.update();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // 初期化
+        init();
+        // 最初のモデルを読み込む（オプション）
+        if (modelList.length > 0) {
+            loadModel(0);
+        }
+    </script>
+</body>
+</html>
