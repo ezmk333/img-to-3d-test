@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3Dモデルビューワー</title>
     <style>
-        body { margin: 0; padding: 0; overflow: hidden; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden;
+            font-size: 12px;
+        }
         canvas { display: block; }
         #model-list {
             position: absolute;
@@ -19,12 +24,13 @@
             overflow-y: auto;
             z-index: 100;
         }
-        #model-list h2 { margin-top: 0; }
+        #model-list h2 { margin-top: 0; font-size: 16px; }
         #model-list ul { padding-left: 20px; }
         #model-list li { 
             cursor: pointer;
             margin-bottom: 5px;
             transition: color 0.3s;
+            font-size: 13px;
         }
         #model-list li:hover { color: #00aaff; }
         .loading {
@@ -40,7 +46,7 @@
         }
         #controls {
             position: absolute;
-            top: 10px;
+            bottom: 10px;
             right: 10px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
@@ -59,6 +65,7 @@
         }
         .control-group label {
             flex: 0 0 40%;
+            font-size: 13px;
         }
         .control-group input {
             flex: 1;
@@ -66,6 +73,29 @@
         .value-display {
             flex: 0 0 50px;
             text-align: right;
+            font-size: 13px;
+        }
+        #image-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 100;
+            display: none;
+        }
+        #image-container h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        #base-image {
+            width: 256px;
+            height: 256px;
+            object-fit: contain;
+            display: block;
         }
     </style>
 </head>
@@ -77,11 +107,6 @@
     <div id="loading" class="loading">Loading...</div>
     
     <div id="controls">
-        <!--<div class="control-group">
-            <label for="ambient-light">ambient-light:</label>
-            <input type="range" id="ambient-light" min="0" max="4" step="0.1" value="2.0">
-            <span id="ambient-value" class="value-display">2.0</span>
-        </div>-->
         <div class="control-group">
             <label for="main-light">main-light:</label>
             <input type="range" id="main-light" min="0" max="6" step="0.2" value="3.0">
@@ -92,6 +117,12 @@
             <input type="range" id="secondary-light" min="0" max="4" step="0.1" value="2.0">
             <span id="secondary-value" class="value-display">2.0</span>
         </div>
+    </div>
+    
+    <!-- 元画像表示用のコンテナ -->
+    <div id="image-container">
+        <h3>Base Image</h3>
+        <img id="base-image" alt="Base image for 3D model" />
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -109,6 +140,7 @@
         let loadingManager, loadingElement;
         let ambientLight, directionalLight, secondaryLight;
         let modelList = [];
+        let imageContainer, baseImage;
 
         // モデルリストをJSONファイルから読み込む関数
         async function loadModelList() {
@@ -123,24 +155,13 @@
                 console.error('モデルリストの読み込みに失敗しました:', error);
                 // エラー時のフォールバックとして最小限のモデルリストを返す
                 return [
-                    { name: "sample model", path: "models/sample.glb", type: "gltf" }
+                    { name: "sample model", model_path: "models/sample.glb", type: "gltf", image_path: "images/sample.jpg" }
                 ];
             }
         }
 
         // ライトの明るさを制御するスライダーの設定
         function setupLightControls() {
-            // 環境光のスライダー
-            /*
-            const ambientSlider = document.getElementById('ambient-light');
-            const ambientValueDisplay = document.getElementById('ambient-value');
-            ambientSlider.addEventListener('input', (e) => {
-                const value = parseFloat(e.target.value);
-                ambientLight.intensity = value;
-                ambientValueDisplay.textContent = value.toFixed(1);
-            });
-            */
-            
             // 主光源のスライダー
             const mainSlider = document.getElementById('main-light');
             const mainValueDisplay = document.getElementById('main-value');
@@ -207,6 +228,10 @@
                 loadingElement.style.display = 'none';
             };
 
+            // 画像コンテナの参照を取得
+            imageContainer = document.getElementById('image-container');
+            baseImage = document.getElementById('base-image');
+
             // 明るさ調整スライダーの設定
             setupLightControls();
 
@@ -235,9 +260,23 @@
             modelList.forEach((model, index) => {
                 const li = document.createElement('li');
                 li.textContent = model.name;
-                li.addEventListener('click', () => loadModel(index));
+                li.addEventListener('click', () => {
+                    loadModel(index);
+                    showBaseImage(index);
+                });
                 modelListElement.appendChild(li);
             });
+        }
+
+        // 元画像を表示する関数
+        function showBaseImage(index) {
+            const model = modelList[index];
+            if (model.image_path) {
+                baseImage.src = model.image_path;
+                imageContainer.style.display = 'block';
+            } else {
+                imageContainer.style.display = 'none';
+            }
         }
 
         function loadModel(index) {
@@ -253,21 +292,21 @@
             switch(model.type) {
                 case 'gltf':
                     loader = new THREE.GLTFLoader(loadingManager);
-                    loader.load(model.path, function(gltf) {
+                    loader.load(model.model_path, function(gltf) {
                         currentModel = gltf.scene;
                         setupModel(currentModel);
                     });
                     break;
                 case 'obj':
                     loader = new THREE.OBJLoader(loadingManager);
-                    loader.load(model.path, function(obj) {
+                    loader.load(model.model_path, function(obj) {
                         currentModel = obj;
                         setupModel(currentModel);
                     });
                     break;
                 case 'fbx':
                     loader = new THREE.FBXLoader(loadingManager);
-                    loader.load(model.path, function(fbx) {
+                    loader.load(model.model_path, function(fbx) {
                         currentModel = fbx;
                         setupModel(currentModel);
                     });
