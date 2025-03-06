@@ -88,7 +88,7 @@
             <span id="main-value" class="value-display">3.0</span>
         </div>
         <div class="control-group">
-            <label for="secondary-light">secondary-light:</label>
+            <label for="secondary-light">sub-light:</label>
             <input type="range" id="secondary-light" min="0" max="4" step="0.1" value="2.0">
             <span id="secondary-value" class="value-display">2.0</span>
         </div>
@@ -131,6 +131,7 @@
         // ライトの明るさを制御するスライダーの設定
         function setupLightControls() {
             // 環境光のスライダー
+            /*
             const ambientSlider = document.getElementById('ambient-light');
             const ambientValueDisplay = document.getElementById('ambient-value');
             ambientSlider.addEventListener('input', (e) => {
@@ -138,6 +139,7 @@
                 ambientLight.intensity = value;
                 ambientValueDisplay.textContent = value.toFixed(1);
             });
+            */
             
             // 主光源のスライダー
             const mainSlider = document.getElementById('main-light');
