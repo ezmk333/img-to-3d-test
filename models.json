@@ -108,6 +108,24 @@
     "type": "gltf"
   },
   {
+    "name": "castle_trellis.glb",
+    "model_path": "models/castle_trellis.glb",
+    "image_path": "images/castle.png",
+    "type": "gltf"
+  },
+  {
+    "name": "castle_hunyuan3d-2.0.glb",
+    "model_path": "models/castle_hunyuan3d-2.0.glb",
+    "image_path": "images/castle.png",
+    "type": "gltf"
+  },
+  {
+    "name": "castle_hunyuan3d-2.0_delight.glb",
+    "model_path": "models/castle_hunyuan3d-2.0_delight.glb",
+    "image_path": "images/castle.png",
+    "type": "gltf"
+  },
+  {
     "name": "cat_trellis.glb",
     "model_path": "models/cat_trellis.glb",
     "image_path": "images/cat.png",
