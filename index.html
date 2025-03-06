@@ -71,26 +71,26 @@
 </head>
 <body>
     <div id="model-list">
-        <h2>3Dモデル一覧</h2>
+        <h2>3D Model List</h2>
         <ul id="models"></ul>
     </div>
-    <div id="loading" class="loading">読み込み中...</div>
+    <div id="loading" class="loading">Loading...</div>
     
     <div id="controls">
+        <!--<div class="control-group">
+            <label for="ambient-light">ambient-light:</label>
+            <input type="range" id="ambient-light" min="0" max="4" step="0.1" value="2.0">
+            <span id="ambient-value" class="value-display">2.0</span>
+        </div>-->
         <div class="control-group">
-            <label for="ambient-light">環境光の強さ:</label>
-            <input type="range" id="ambient-light" min="0" max="2" step="0.1" value="0.8">
-            <span id="ambient-value" class="value-display">0.8</span>
+            <label for="main-light">main-light:</label>
+            <input type="range" id="main-light" min="0" max="6" step="0.2" value="3.0">
+            <span id="main-value" class="value-display">3.0</span>
         </div>
         <div class="control-group">
-            <label for="main-light">主光源の強さ:</label>
-            <input type="range" id="main-light" min="0" max="3" step="0.1" value="1.2">
-            <span id="main-value" class="value-display">1.2</span>
-        </div>
-        <div class="control-group">
-            <label for="secondary-light">補助光の強さ:</label>
-            <input type="range" id="secondary-light" min="0" max="2" step="0.1" value="0.8">
-            <span id="secondary-value" class="value-display">0.8</span>
+            <label for="secondary-light">secondary-light:</label>
+            <input type="range" id="secondary-light" min="0" max="4" step="0.1" value="2.0">
+            <span id="secondary-value" class="value-display">2.0</span>
         </div>
     </div>
     
@@ -123,7 +123,7 @@
                 console.error('モデルリストの読み込みに失敗しました:', error);
                 // エラー時のフォールバックとして最小限のモデルリストを返す
                 return [
-                    { name: "サンプルモデル", path: "models/sample.glb", type: "gltf" }
+                    { name: "sample model", path: "models/sample.glb", type: "gltf" }
                 ];
             }
         }
