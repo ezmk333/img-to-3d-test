@@ -1,22 +1,22 @@
 [
   {
-    "name": "モデル1",
-    "path": "models/model1.glb",
+    "name": "motorbike_hunyuan3d-2.0.glb",
+    "path": "models/motorbike_hunyuan3d-2.0.glb",
     "type": "gltf"
   },
   {
-    "name": "モデル2",
-    "path": "models/model2.obj",
-    "type": "obj"
+    "name": "motorbike_hunyuan3d-2.0_delight.glb",
+    "path": "models/motorbike_hunyuan3d-2.0_delight.glb",
+    "type": "gltf"
   },
   {
-    "name": "モデル3",
-    "path": "models/model3.fbx",
-    "type": "fbx"
+    "name": "burger_hunyuan3d-2.0_.glb",
+    "path": "models/burger_hunyuan3d-2.0_.glb",
+    "type": "gltf"
   },
   {
-    "name": "モデル4",
-    "path": "models/model4.glb",
+    "name": "burger_hunyuan3d-2.0_delight_.glb",
+    "path": "models/burger_hunyuan3d-2.0_delight_.glb",
     "type": "gltf"
   }
 ]
