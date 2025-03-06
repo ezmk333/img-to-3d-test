@@ -1,14 +1,44 @@
 [
   {
-    "name": "motorbike_hunyuan3d-2.0.glb",
-    "model_path": "models/motorbike_hunyuan3d-2.0.glb",
-    "image_path": "images/motorbike.png",
+    "name": "rachel_mini_trellis.glb",
+    "model_path": "models/rachel_mini_trellis.glb",
+    "image_path": "images/rachel_mini.png",
     "type": "gltf"
   },
   {
-    "name": "motorbike_hunyuan3d-2.0_delight.glb",
-    "model_path": "models/motorbike_hunyuan3d-2.0_delight.glb",
-    "image_path": "images/motorbike.png",
+    "name": "rachel_mini_hunyuan3d-2.0_.glb",
+    "model_path": "models/rachel_mini_hunyuan3d-2.0_.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
+    "name": "rachel_mini_hunyuan3d-2.0_delight_.glb",
+    "model_path": "models/rachel_mini_hunyuan3d-2.0_delight_.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
+    "name": "cat_trellis.glb",
+    "model_path": "models/cat_trellis.glb",
+    "image_path": "images/cat.png",
+    "type": "gltf"
+  },
+  {
+    "name": "cat_hunyuan3d-2.0_.glb",
+    "model_path": "models/cati_hunyuan3d-2.0_.glb",
+    "image_path": "images/cat.png",
+    "type": "gltf"
+  },
+  {
+    "name": "cat_hunyuan3d-2.0_delight_.glb",
+    "model_path": "models/cat_hunyuan3d-2.0_delight_.glb",
+    "image_path": "images/cat.png",
+    "type": "gltf"
+  },
+  {
+    "name": "burger_trellis.glb",
+    "model_path": "models/burger_trellis.glb",
+    "image_path": "images/burger.png",
     "type": "gltf"
   },
   {
@@ -21,6 +51,78 @@
     "name": "burger_hunyuan3d-2.0_delight_.glb",
     "model_path": "models/burger_hunyuan3d-2.0_delight_.glb",
     "image_path": "images/burger.png",
+    "type": "gltf"
+  },
+  {
+    "name": "hotopot_trellis.glb",
+    "model_path": "models/hotopot_trellis.glb",
+    "image_path": "images/hotopot.png",
+    "type": "gltf"
+  },
+  {
+    "name": "hotopot_hunyuan3d-2.0_.glb",
+    "model_path": "models/hotopot_hunyuan3d-2.0_.glb",
+    "image_path": "images/hotopot.png",
+    "type": "gltf"
+  },
+  {
+    "name": "hotopot_hunyuan3d-2.0_delight_.glb",
+    "model_path": "models/hotopot_hunyuan3d-2.0_delight_.glb",
+    "image_path": "images/hotopot.png",
+    "type": "gltf"
+  },
+  {
+    "name": "houseplant_trellis.glb",
+    "model_path": "models/houseplant_trellis.glb",
+    "image_path": "images/houseplant.png",
+    "type": "gltf"
+  },
+  {
+    "name": "houseplant_hunyuan3d-2.0_.glb",
+    "model_path": "models/houseplant_hunyuan3d-2.0_.glb",
+    "image_path": "images/houseplant.png",
+    "type": "gltf"
+  },
+  {
+    "name": "houseplant_hunyuan3d-2.0_delight_.glb",
+    "model_path": "models/houseplant_hunyuan3d-2.0_delight_.glb",
+    "image_path": "images/houseplant.png",
+    "type": "gltf"
+  },
+  {
+    "name": "motorbike_trellis.glb",
+    "model_path": "models/motorbike_trellis.glb",
+    "image_path": "images/motorbike.png",
+    "type": "gltf"
+  },
+  {
+    "name": "motorbike_hunyuan3d-2.0.glb",
+    "model_path": "models/motorbike_hunyuan3d-2.0.glb",
+    "image_path": "images/motorbike.png",
+    "type": "gltf"
+  },
+  {
+    "name": "motorbike_hunyuan3d-2.0_delight.glb",
+    "model_path": "models/motorbike_hunyuan3d-2.0_delight.glb",
+    "image_path": "images/motorbike.png",
+    "type": "gltf"
+  },
+  {
+    "name": "shop_trellis.glb",
+    "model_path": "models/shop_trellis.glb",
+    "image_path": "images/shop.png",
+    "type": "gltf"
+  },
+  {
+    "name": "shop_hunyuan3d-2.0.glb",
+    "model_path": "models/shop_hunyuan3d-2.0.glb",
+    "image_path": "images/shop.png",
+    "type": "gltf"
+  },
+  {
+    "name": "shop_hunyuan3d-2.0_delight.glb",
+    "model_path": "models/shop_hunyuan3d-2.0_delight.glb",
+    "image_path": "images/shop.png",
     "type": "gltf"
   }
 ]
