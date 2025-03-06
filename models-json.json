@@ -1,0 +1,22 @@
+[
+  {
+    "name": "モデル1",
+    "path": "models/model1.glb",
+    "type": "gltf"
+  },
+  {
+    "name": "モデル2",
+    "path": "models/model2.obj",
+    "type": "obj"
+  },
+  {
+    "name": "モデル3",
+    "path": "models/model3.fbx",
+    "type": "fbx"
+  },
+  {
+    "name": "モデル4",
+    "path": "models/model4.glb",
+    "type": "gltf"
+  }
+]
