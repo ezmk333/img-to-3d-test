@@ -57,17 +57,30 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/fflate.min.js"></script>
 
     <script>
-        // モデルのリスト（ここを編集してモデルを追加）
-        const modelList = [
-            { name: "motorbike_hunyuan3d-2.0.glb", path: "models/motorbike_hunyuan3d-2.0.glb", type: "gltf" },
-            { name: "motorbike_hunyuan3d-2.0_delight.glb", path: "models/motorbike_hunyuan3d-2.0_delight.glb", type: "gltf" },
-            { name: "burger_hunyuan3d-2.0", path: "models/burger_hunyuan3d-2.0.glb", type: "gltf" },
-            { name: "burger_hunyuan3d-2.0_delight.glb", path: "models/burger_hunyuan3d-2.0_delight.glb", type: "gltf" },
-        ];
+        // モデルリストを外部JSONファイルから読み込む
+        let modelList = [];
 
         // Three.jsの初期化
         let scene, camera, renderer, controls, currentModel;
         let loadingManager, loadingElement;
+
+        // モデルリストをJSONファイルから読み込む関数
+        async function loadModelList() {
+            try {
+                const response = await fetch('models.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('モデルリストの読み込みに失敗しました:', error);
+                // エラー時のフォールバックとして最小限のモデルリストを返す
+                return [
+                    { name: "サンプルモデル", path: "models/sample.glb", type: "gltf" }
+                ];
+            }
+        }
 
         function init() {
             // シーンの作成
@@ -90,14 +103,19 @@
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
 
-            // ライティングの設定
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            // ライティングの設定 - より明るく
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // 環境光を強く
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1.2); // メイン光源を強く
             directionalLight.position.set(1, 1, 1);
             directionalLight.castShadow = true;
             scene.add(directionalLight);
+            
+            // 補助光源を追加
+            const secondaryLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            secondaryLight.position.set(-1, 0.5, -1);
+            scene.add(secondaryLight);
 
             // ローディングマネージャー
             loadingElement = document.getElementById('loading');
@@ -109,8 +127,16 @@
                 loadingElement.style.display = 'none';
             };
 
-            // モデルリストの作成
-            populateModelList();
+            // モデルリストの読み込みと表示
+            loadModelList().then(models => {
+                modelList = models;
+                populateModelList();
+                
+                // 最初のモデルを読み込む（モデルがある場合）
+                if (modelList.length > 0) {
+                    loadModel(0);
+                }
+            });
 
             // リサイズイベント
             window.addEventListener('resize', onWindowResize);
@@ -213,10 +239,6 @@
 
         // 初期化
         init();
-        // 最初のモデルを読み込む（オプション）
-        if (modelList.length > 0) {
-            loadModel(0);
-        }
     </script>
 </body>
 </html>
