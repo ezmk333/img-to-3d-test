@@ -180,6 +180,36 @@
     "type": "gltf"
   },
   {
+    "name": "rachel_mini_tripo.glb",
+    "model_path": "models/rachel_mini_tripo.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
+    "name": "rachel_mini_csm.glb",
+    "model_path": "models/rachel_mini_csm.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
+    "name": "rachel_mini_meshy.glb",
+    "model_path": "models/rachel_mini_meshy.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
+    "name": "rachel_mini_hyper3d.glb",
+    "model_path": "models/rachel_mini_hyper3d.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
+    "name": "rachel_mini_hyper3d_shaded.glb",
+    "model_path": "models/rachel_mini_hyper3d_shaded.glb",
+    "image_path": "images/rachel_mini.png",
+    "type": "gltf"
+  },
+  {
     "name": "rachel_hires_trellis.glb",
     "model_path": "models/rachel_hires_trellis.glb",
     "image_path": "images/rachel_hires.png",
